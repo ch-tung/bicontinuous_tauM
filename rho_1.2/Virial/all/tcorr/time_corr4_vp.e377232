@@ -1,0 +1,67 @@
+Your job starts at Wed Jun  9 13:23:36 CST 2021
+/home/u1/u6666666/python/Python-3.8.0/python3.8.0/home/u1/u6666666/python/Python-3.8.0/python3.8.0/lib/python3.8/site-packages/numpy/lib/function_base.py:380: RuntimeWarning: Mean of empty slice.
+  avg = a.mean(axis)
+/home/u1/u6666666/python/Python-3.8.0/python3.8.0/home/u1/u6666666/python/Python-3.8.0/python3.8.0/lib/python3.8/site-packages/numpy/core/_methods.py:170: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+0.4
+1
+2
+3
+4
+0.5
+1
+2
+3
+4
+0.6
+1
+2
+3
+4
+0.7
+1
+2
+3
+4
+0.8
+1
+2
+3
+4
+0.9
+1
+2
+3
+4
+1.0
+1
+2
+3
+4
+1.2
+1
+2
+3
+4
+1.5
+1
+2
+3
+4
+2.0
+1
+2
+3
+4
+3.0
+1
+2
+3
+4
+5.0
+1
+2
+3
+4
+It cost 31417.838470 sec
+Your job ended at  Wed Jun  9 13:23:36 CST 2021 

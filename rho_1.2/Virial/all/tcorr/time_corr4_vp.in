@@ -1,0 +1,19 @@
+#!/bin/bash
+#PBS -P MST109322
+#PBS -N time_corr4_vp
+#PBS -l select=1:ncpus=8:mpiprocs=8
+#PBS -q cf40
+#PBS -j eo 
+
+cd /work1/u6666666/Kob_Anderson/Kob1994/multi_pp/rho1.2/6912_box/long/NVE/Virial/all/tcorr
+
+#OMP_NUM_THREADS=1
+
+echo "Your job starts at Wed Jun  9 13:23:36 CST 2021"
+
+module load intel/2018_u1
+python3.8 ./time_corr4_vp.py
+wait
+
+echo "Your job ended at  Wed Jun  9 13:23:36 CST 2021 "
+
