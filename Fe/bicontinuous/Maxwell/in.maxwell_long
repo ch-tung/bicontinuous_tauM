@@ -1,0 +1,90 @@
+# polydispersed
+
+# Kob-Andersen
+label	loopc
+variable    C loop 1
+
+print $C
+
+clear
+units    metal
+atom_style    atomic
+boundary    p p p
+dimension    3
+
+lattice    fcc 7.4169 orient x 1 0 0 orient y 0 1 0 orient z 0 0 1
+region		box block -7 7 -7 7 -7 7
+create_box	1 box
+create_atoms	1 random 6912 $C NULL
+
+mass    1 55.845
+
+###### potential
+pair_style	table linear 3440
+pair_coeff	* * Fe_Johnson.dat Fe 3.44
+
+###### simulation
+timestep	0.001
+
+variable s equal 1/2
+
+# compression
+fix	1 all nve/limit 0.01
+run 10000
+unfix 1
+fix	2 all deform 1 x scale $s y scale $s z scale $s remap x
+fix 3 all nve/limit 0.01
+run 10000
+unfix 2
+unfix 3
+
+# equilibrium
+reset_timestep 0
+restart         100000  restart.*
+#velocity all create 300 1684651 dist gaussian
+fix		5 all nvt temp 5000 5000 $(100.0*dt)
+run		100000
+unfix 5
+
+#loop start
+label	loopt
+
+variable    t index 1500 2300 5000
+variable    T equal $t
+
+# trajectory
+clear
+read_restart	restart.100000
+pair_style	table linear 3440
+pair_coeff	* * Fe_Johnson.dat Fe 3.44
+fix		6 all nvt temp 5000 $T $(100.0*dt)
+variable S equal floor((5000-$T)*100)+1
+run     $S
+unfix 6
+
+fix		7 all nvt temp $T $T $(100.0*dt)
+fix		8 all momentum 1 linear 1 1 1 rescale
+run		1000000
+reset_timestep 0
+
+unfix 7
+unfix 8
+
+fix		9 all nve
+
+# thermo_start
+print $T
+print $C
+thermo    1
+thermo_style    custom step temp pxx pyy pzz pxy pxz pyz
+run 	1000000
+# thermo_end
+
+next	t
+jump	in.maxwell_long loopt
+
+next	C
+jump	in.maxwell_long loopc
+
+label       break
+variable    T delete
