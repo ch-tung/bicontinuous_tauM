@@ -17,6 +17,7 @@ set(gca, 'ColorOrder', color_order)
 
 load('tau_M.mat')
 tau_M = tau_M(2:end);
+tau_T = 1./sqrt(Temperature);
 
 plot(t_MC./tau_M,mean_MC_T,'LineWidth',2)
 
@@ -31,7 +32,7 @@ plot([1e-5 1e5],[0 0],'-','Color','#666666')
 plot([1 1],[-1 1],'--','Color','#666666')
 
 set(gca, 'XScale', 'log')
-xlim(10.^[-5 5])
+xlim(10.^[-4 4])
 xticks(10.^[-10:2:10])
 ylim([-0.5 0.5])
 
@@ -41,9 +42,45 @@ set(gca,'LineWidth',2)
 set(gcf,'Position',[200,100,600,600])
 set(gca,'FontSize',28,'FontName','Arial')
 
-ylabel('Averaged mean curvature','FontSize',26)
+% ylabel('Averaged mean curvature','FontSize',26)
 
+%%
+figure(1)
+hold on
+box on
 
+yyaxis right
+set(gca, 'ColorOrder', color_order)
+
+load('tau_M.mat')
+tau_M = tau_M(2:end);
+tau_T = 1./sqrt(Temperature);
+
+plot(t_MC./tau_M,mean_GC_T,'--','LineWidth',2)
+
+% for i = 1:length(Temperature)
+%     F_tau = griddedInterpolant(t_MC,mean_MC_T(:,i),'linear');
+%     MC_tau_M(i) = F_tau(tau_M(i));
+%     plot(1,MC_tau_M(i),'o','LineWidth',2,'MarkerEdgeColor','k','MarkerFaceColor',color_order(i,:),...
+%         'MarkerSize',12)
+% end
+
+plot([1e-5 1e5],[0 0],'-','Color','#666666')
+plot([1 1],[-1 1],'--','Color','#666666')
+
+set(gca, 'XScale', 'log')
+xlim(10.^[-4 4])
+xticks(10.^[-10:2:10])
+ylim([-0.5 0.5])
+
+xlabel('\it{t}/\tau_{M}','FontSize',28)
+
+set(gca,'LineWidth',2)
+set(gcf,'Position',[200,100,600,600])
+set(gca,'FontSize',28,'FontName','Arial')
+
+% ylabel('Averaged mean curvature','FontSize',26)
+set(gca,'position',[0.13    0.22   0.7376    0.7376])
 %%
 % figure(2)
 % hold on
