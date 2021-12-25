@@ -21,12 +21,20 @@ tau_T = 1./sqrt(Temperature);
 
 plot(t_MC./tau_M,mean_MC_T,'LineWidth',2)
 
-% for i = 1:length(Temperature)
-%     F_tau = griddedInterpolant(t_MC,mean_MC_T(:,i),'linear');
-%     MC_tau_M(i) = F_tau(tau_M(i));
-%     plot(1,MC_tau_M(i),'o','LineWidth',2,'MarkerEdgeColor','k','MarkerFaceColor',color_order(i,:),...
-%         'MarkerSize',12)
-% end
+for i = 1:length(Temperature)
+    F_tau = griddedInterpolant(t_MC,mean_MC_T(:,i),'linear');
+    MC_tau_M(i) = F_tau(tau_M(i));
+    plot(tau_M(i)/tau_M(i),MC_tau_M(i),'o','LineWidth',2,'MarkerEdgeColor','k','MarkerFaceColor',color_order(i,:),...
+        'MarkerSize',8)
+end
+
+load susceptibility_1.2_1.0.mat
+for i = 1:length(Temperature)
+    F_max = griddedInterpolant(t_MC,mean_MC_T(:,i),'linear');
+    MC_tmax(i) = F_max(tmax(i));
+    plot(tmax(i)/tau_M(i),MC_tmax(i),'^','LineWidth',2,'MarkerEdgeColor','k','MarkerFaceColor',color_order(i,:),...
+        'MarkerSize',8)
+end
 
 plot([1e-5 1e5],[0 0],'-','Color','#666666')
 plot([1 1],[-1 1],'--','Color','#666666')
@@ -58,12 +66,20 @@ tau_T = 1./sqrt(Temperature);
 
 plot(t_MC./tau_M,mean_GC_T,'--','LineWidth',2)
 
-% for i = 1:length(Temperature)
-%     F_tau = griddedInterpolant(t_MC,mean_MC_T(:,i),'linear');
-%     MC_tau_M(i) = F_tau(tau_M(i));
-%     plot(1,MC_tau_M(i),'o','LineWidth',2,'MarkerEdgeColor','k','MarkerFaceColor',color_order(i,:),...
-%         'MarkerSize',12)
-% end
+for i = 1:length(Temperature)
+    F_tau = griddedInterpolant(t_MC,mean_GC_T(:,i),'linear');
+    MC_tau_M(i) = F_tau(tau_M(i));
+    plot(tau_M(i)/tau_M(i),MC_tau_M(i),'o','LineWidth',2,'MarkerEdgeColor','k','MarkerFaceColor',color_order(i,:),...
+        'MarkerSize',8)
+end
+
+load susceptibility_1.2_1.0.mat
+for i = 1:length(Temperature)
+    F_max = griddedInterpolant(t_MC,mean_GC_T(:,i),'linear');
+    MC_tmax(i) = F_max(tmax(i));
+    plot(tmax(i)/tau_M(i),MC_tmax(i),'^','LineWidth',2,'MarkerEdgeColor','k','MarkerFaceColor',color_order(i,:),...
+        'MarkerSize',8)
+end
 
 plot([1e-5 1e5],[0 0],'-','Color','#666666')
 plot([1 1],[-1 1],'--','Color','#666666')

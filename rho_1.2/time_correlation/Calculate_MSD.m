@@ -144,5 +144,6 @@ box on
 xlabel('$t/\tau_M$','FontSize',24,'Interpreter','latex')
 ylabel('$\textrm{MSD}$','FontSize',24,'Interpreter','latex')
 set(gca,'LineWidth',2)
-set(gcf,'Position',[200,100,800,600])
+set(gcf,'Position',[200,100,600,600])
+set(gca,'position',[0.13    0.22   0.7376    0.7376])
 set(gca,'FontSize',28,'FontName','Times New Roman')

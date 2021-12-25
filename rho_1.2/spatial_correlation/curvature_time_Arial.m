@@ -151,7 +151,7 @@ for T_i = Temperature % loop over temperature
             Zs = Zs(index_shadow);
             ps = ps(index_shadow,:);
             
-            dl = Lx/20; % pixel size
+            dl = Lx/12; % pixel size
             n_edge = 1;
             [XX, YY, ZZ] = meshgrid((-n_edge*dl:dl:Lx+n_edge*dl)-Lx/2,(-n_edge*dl:dl:Ly+n_edge*dl)-Ly/2,(-n_edge*dl:dl:Lz+n_edge*dl)-Ly/2);
             F = scatteredInterpolant(Xs, Ys, Zs, ps, 'natural');
@@ -254,23 +254,54 @@ hold on
 box on
 set(gca, 'ColorOrder', color_order)
 
-mean_GC_T(mean_GC_T>0) = 0;
+plot(t_MC/1000,mean_MC_T,'LineWidth',2)
 
-plot(t_MC,2*pi./sqrt(-6*mean_GC_T),'LineWidth',2)
-set(gca, 'XScale', 'log')
-
+load('tau_M.mat')
+tau_M = tau_M(2:end)/1000;
 for i = 1:length(Temperature)
-    F_tau = griddedInterpolant(t_MC,mean_GC_T(:,i),'linear');
+    F_tau = griddedInterpolant(t_MC/1000,mean_GC_T(:,i),'linear');
     GC_tau_M(i) = F_tau(tau_M(i));
-    plot(tau_M(i),2*pi./sqrt(-6*GC_tau_M(i)),'o','LineWidth',2,'MarkerEdgeColor','k','MarkerFaceColor',color_order(i,:),...
+    plot(tau_M(i),GC_tau_M(i),'o','LineWidth',2,'MarkerEdgeColor','k','MarkerFaceColor',color_order(i,:),...
         'MarkerSize',12)
 end
 
-xlim([10 1e6])
-ylim([0 20])
+plot([1 1e9]/1000,[0 0],'-','Color','#666666')
 
-xlabel('$t$','FontSize',24,'Interpreter','latex')
-ylabel('$2\pi\left\langle k^2 \right\rangle^{-\frac{1}{2}}$','FontSize',24,'Interpreter','latex')
+set(gca, 'XScale', 'log')
+xlim([10 1e5]/1000)
+ylim([-0.5 0.5])
+
+xlabel('\it{t}','FontSize',28)
+
 set(gca,'LineWidth',2)
 set(gcf,'Position',[200,100,800,600])
-set(gca,'FontSize',28,'FontName','Times New Roman')
+set(gca,'FontSize',28,'FontName','Arial')
+
+ylabel('Averaged Gaussian curvature','FontSize',26)
+
+% %%
+% figure(3)
+% hold on
+% box on
+% set(gca, 'ColorOrder', color_order)
+% 
+% mean_GC_T(mean_GC_T>0) = 0;
+% 
+% plot(t_MC,2*pi./sqrt(-6*mean_GC_T),'LineWidth',2)
+% set(gca, 'XScale', 'log')
+% 
+% for i = 1:length(Temperature)
+%     F_tau = griddedInterpolant(t_MC,mean_GC_T(:,i),'linear');
+%     GC_tau_M(i) = F_tau(tau_M(i));
+%     plot(tau_M(i),2*pi./sqrt(-6*GC_tau_M(i)),'o','LineWidth',2,'MarkerEdgeColor','k','MarkerFaceColor',color_order(i,:),...
+%         'MarkerSize',12)
+% end
+% 
+% xlim([10 1e6])
+% ylim([0 20])
+% 
+% xlabel('$t$','FontSize',24,'Interpreter','latex')
+% ylabel('$2\pi\left\langle k^2 \right\rangle^{-\frac{1}{2}}$','FontSize',24,'Interpreter','latex')
+% set(gca,'LineWidth',2)
+% set(gcf,'Position',[200,100,800,600])
+% set(gca,'FontSize',28,'FontName','Times New Roman')
