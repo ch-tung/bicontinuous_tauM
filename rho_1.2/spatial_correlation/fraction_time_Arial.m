@@ -125,6 +125,7 @@ color_order = color_parula(index_color,:);
 % color_order = color(index_color,:);
 
 figure(2)
+load('fraction.mat')
 hold on
 box on
 set(gca, 'ColorOrder', color_order)
@@ -137,19 +138,29 @@ for i = 1:length(Temperature)
     F_tau = griddedInterpolant(t_MC/1000,fraction_T(:,i),'linear');
     fraction_tau_M(i) = F_tau(tau_M(i));
     plot(tau_M(i),fraction_tau_M(i),'o','LineWidth',2,'MarkerEdgeColor','k','MarkerFaceColor',color_order(i,:),...
-        'MarkerSize',12)
+        'MarkerSize',8)
+end
+
+load susceptibility_1.2_1.0.mat
+for i = 1:length(Temperature)
+    F_max = griddedInterpolant(t_MC/1000,fraction_T(:,i),'linear');
+    fraction_tmax(i) = F_max(tmax(i)/1000);
+    plot(tmax(i)/1000,fraction_tmax(i),'^','LineWidth',2,'MarkerEdgeColor','k','MarkerFaceColor',color_order(i,:),...
+        'MarkerSize',8)
 end
 
 % plot([1 1e9]/1000,[0 0],'-','Color','#666666')
 
 set(gca, 'XScale', 'log')
-xlim([10 1e5]/1000)
+xlim([1e-3 1e4])
 ylim([0 1])
+xticks(10.^[-3:1:4])
 
 xlabel('\it{t}','FontSize',28)
 
 set(gca,'LineWidth',2)
 set(gcf,'Position',[200,100,600,600])
+set(gca,'position',[0.18    0.22   0.7376    0.7376])
 set(gca,'FontSize',28,'FontName','Arial')
 
 ylabel('Fraction','FontSize',26)
